@@ -9,8 +9,8 @@ document.getElementById('connectBtn').addEventListener('click', async () => {
     await device.open();
     await device.selectConfiguration(1);
     await device.claimInterface(0);
-    await setLineCoding(device, 921600, 8, 1, 0)
     await device.claimInterface(1);
+    await setLineCoding(device, 921600, 8, 1, 0)
 
     logToTerminal("Connected to device");
     readLoop();
