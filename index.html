@@ -1,19 +1,29 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>Web Serial Terminal</title>
+  <meta charset="UTF-8">
+  <title>WebUSB Terminal</title>
+  <style>
+    #terminal {
+      width: 100%;
+      height: 300px;
+      border: 1px solid #ccc;
+      overflow-y: auto;
+      font-family: monospace;
+      padding: 5px;
+      background: #f9f9f9;
+    }
+    #inputBox {
+      width: 100%;
+      padding: 5px;
+      font-family: monospace;
+    }
+  </style>
 </head>
 <body>
-    <h1>Web Serial Port Example</h1>
-    <button id="connectButton">Connect to Serial Port</button>
-    <button id="disconnectButton" disabled>Disconnect</button>
-    <br>
-    <textarea id="output" rows="15" cols="80" readonly></textarea>
-    <br>
-    <input type="text" id="inputText" placeholder="Type command and press Enter" size="60" disabled>
-    <button id="sendButton" disabled>Send</button>
-
-    <script src="serial.js"></script>
+  <button id="connectBtn">Connect USB Device</button>
+  <div id="terminal"></div>
+  <input id="inputBox" placeholder="Type command and press Enter" />
+  <script src="terminal.js"></script>
 </body>
 </html>
