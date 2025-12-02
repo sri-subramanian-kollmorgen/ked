@@ -144,7 +144,8 @@ async function readLoop() {
 
 function logToTerminal(text, br=true) {
   const terminal = document.getElementById('terminal');
-  terminal.innerHTML += text;
+  const formattedText = text.replace(/\n/g, '<br>');
+  terminal.innerHTML += formattedText;
   if(br == true) {
     terminal.innerHTML += '<br>';
   }
