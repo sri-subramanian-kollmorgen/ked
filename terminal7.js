@@ -94,7 +94,7 @@ async function setLineCoding(device, baudRate, dataBits, stopBits, parity) {
 
 async function sendCommand(cmd) {
   const encoder = new TextEncoder();
-  const data = encoder.encode(cmd + "\r");
+  const data = encoder.encode(cmd + "\r\n");
   
   try {
       const result = await device.transferOut(1, data); // Endpoint 1 for OUT
