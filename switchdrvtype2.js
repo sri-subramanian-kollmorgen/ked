@@ -137,7 +137,7 @@ async function readLoop() {
       const result = await device.transferIn(1, 64); 
       const decoder = new TextDecoder();
       const text = decoder.decode(result.data);
-      logToTerminal(text;
+      logToTerminal(text);
 
     } catch (error) {
         logToTerminal("Read Error: " + error.message);
