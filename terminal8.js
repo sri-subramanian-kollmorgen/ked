@@ -11,7 +11,9 @@ document.getElementById('connectBtn').addEventListener('click', async () => {
     await device.selectConfiguration(1);
     await device.claimInterface(0);
     await device.claimInterface(1);
-    await setLineCoding(device, 921600, 8, 1, 0)
+    await setLineCoding(device, 6000000, 8, 1, 0)
+// *** CRITICAL: Wait 500ms for the device to reset its UART ***
+    await new Promise(resolve => setTimeout(resolve, 500)); 
 
     logToTerminal("Connected to device");
     readLoop();
