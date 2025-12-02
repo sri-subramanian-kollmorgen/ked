@@ -145,7 +145,8 @@ async function readLoop() {
 function logToTerminal(text, br=true) {
   const terminal = document.getElementById('terminal');
   terminal.innerHTML += text;
-  if(br == true)
+  if(br == true) {
     terminal.innerHTML += '<br>';
+  }
   terminal.scrollTop = terminal.scrollHeight;
 }
