@@ -164,6 +164,9 @@ function handleCommand(commandId) {
         case 7:
             sendCommand('drv.type ' + commandId);
             break;
+        case 9:
+            sendCommand('drv.reboot 0xaabbccdd');
+            break;
         default:
             message = "Unknown Command ID received.";
             logToTerminal(message);
