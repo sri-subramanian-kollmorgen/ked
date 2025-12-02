@@ -1,4 +1,5 @@
 let device;
+let doRead = false;
 
 document.getElementById('connectBtn').addEventListener('click', async () => {
   try {
