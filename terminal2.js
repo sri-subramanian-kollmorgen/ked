@@ -121,9 +121,9 @@ function sleep(ms) {
 
 async function readLoop() {
   while (device) {
-    while(doRead == false) {
-      await sleep(100);
-    }
+    //while(doRead == false) {
+    //  await sleep(100);
+    //}
       
     try {
       // *** CORRECTED: Add the try/catch block here ***
