@@ -1,12 +1,12 @@
 let device;
 
-function logToTerminal(text) {
+function logToTerminal(text, br = true) {
   const terminal = document.getElementById('outputArea');
   //const formattedText = text.replace(/\n/g, '<br>');
   terminal.innerHTML += text;
-//   if(br == true) {
-//     terminal.innerHTML += '<br>';
-//   }
+  if(br == true) {
+     terminal.innerHTML += '\n';
+   }
   terminal.scrollTop = terminal.scrollHeight;
 }
 
@@ -133,7 +133,7 @@ async function readLoop() {
       const result = await device.transferIn(1, 64); 
       const decoder = new TextDecoder();
       const text = decoder.decode(result.data);
-      logToTerminal(text);
+      logToTerminal(text, false);
 
     } catch (error) {
         logToTerminal("Read Error: " + error.message);
