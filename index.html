@@ -1,29 +1,26 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>WebUSB Terminal</title>
-  <style>
-    #terminal {
-      width: 100%;
-      height: 300px;
-      border: 1px solid #ccc;
-      overflow-y: auto;
-      font-family: monospace;
-      padding: 5px;
-      background: #f9f9f9;
-    }
-    #inputBox {
-      width: 100%;
-      padding: 5px;
-      font-family: monospace;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Button Demo with Numbers</title>
+    <style>
+        body { font-family: sans-serif; padding: 20px; }
+        button { padding: 10px 15px; margin: 5px; cursor: pointer; }
+        #outputArea { width: 100%; height: 200px; margin-top: 20px; resize: vertical; }
+    </style>
 </head>
 <body>
-  <button id="connectBtn">Connect USB Device 8</button>
-  <div id="terminal"></div>
-  <input id="inputBox" placeholder="Type command and press Enter" />
-  <script src="terminal8.js"></script>
+
+    <h1>Select a Command</h1>
+
+    <!-- Method 1: Using data attributes (Recommended JS approach) -->
+     <button data-command-id="0">Connect</button>
+    <button data-command-id="2">Set EtherCAT drive</button>
+    <button data-command-id="5">Set Profinet drive </button>
+    <button data-command-id="7">Set EthernetIP drive</button>
+    <script src="switchdrvtype.js"></script>
+    <h2>Output Messages</h2>
+    <textarea id="outputArea" readonly></textarea>
 </body>
 </html>
