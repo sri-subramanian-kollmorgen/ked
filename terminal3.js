@@ -1,5 +1,4 @@
 let device;
-let doRead = false;
 
 document.getElementById('connectBtn').addEventListener('click', async () => {
   try {
@@ -121,9 +120,6 @@ function sleep(ms) {
 
 async function readLoop() {
   while (device) {
-    //while(doRead == false) {
-    //  await sleep(100);
-    //}
       
     try {
       // *** CORRECTED: Add the try/catch block here ***
@@ -131,8 +127,6 @@ async function readLoop() {
       const decoder = new TextDecoder();
       const text = decoder.decode(result.data);
       logToTerminal(text);
-      if(text.endsWith("-->\r\n"))
-        doRead = false;
 
     } catch (error) {
         logToTerminal("Read Error: " + error.message);
@@ -150,6 +144,6 @@ async function readLoop() {
 
 function logToTerminal(text) {
   const terminal = document.getElementById('terminal');
-  terminal.innerHTML += text + "<cr><br>";
+  terminal.innerHTML += text;
   terminal.scrollTop = terminal.scrollHeight;
 }
