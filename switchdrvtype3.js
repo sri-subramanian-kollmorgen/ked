@@ -121,13 +121,9 @@ document.getElementById('inputBox').addEventListener('keydown', async (e) => {
     const cmd = e.target.value;
     e.target.value = '';
     await sendCommand(cmd);
-    logToTerminal(cmd);
+    //logToTerminal(cmd);
   }
 });
-
-function sleep(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
-}
 
 async function readLoop() {
   while (device) {
