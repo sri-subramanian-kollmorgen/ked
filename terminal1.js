@@ -12,7 +12,11 @@ document.getElementById('connectBtn').addEventListener('click', async () => {
     await device.claimInterface(0);
     await device.claimInterface(1);
     await setLineCoding(device, 115200, 8, 1, 0)
-// *** CRITICAL: Wait 500ms for the device to reset its UART ***
+  
+    // 2. Activate DTR and RTS for hardware flow control
+    await setControlLineState(device, true, true); // Activate both
+
+    // *** CRITICAL: Wait 500ms for the device to reset its UART ***
     await new Promise(resolve => setTimeout(resolve, 500)); 
 
     logToTerminal("Connected to device");
@@ -30,6 +34,30 @@ document.getElementById('inputBox').addEventListener('keydown', async (e) => {
     logToTerminal("> " + cmd);
   }
 });
+
+/**
+ * Sends a SET_CONTROL_LINE_STATE request to set DTR and RTS signals.
+ * @param {USBDevice} device The connected USB device.
+ * @param {boolean} dtr Data Terminal Ready signal state.
+ * @param {boolean} rts Request To Send signal state.
+ */
+async function setControlLineState(device, dtr, rts) {
+    // USB CDC ACM SET_CONTROL_LINE_STATE request ID is 0x22
+    const SET_CONTROL_LINE_STATE = 0x22;
+    
+    let value = 0;
+    if (dtr) value |= (1 << 0); // Set DTR bit (bit 0)
+    if (rts) value |= (1 << 1); // Set RTS bit (bit 1)
+
+    await device.controlTransferOut({
+        requestType: 'class',
+        recipient: 'interface',
+        request: SET_CONTROL_LINE_STATE,
+        value: value, 
+        index: 0x00 // Index 0 is the Control Interface
+    });
+    logToTerminal(`Set DTR/RTS to DTR:${dtr}, RTS:${rts}`);
+}
 
 async function setLineCoding(device, baudRate, dataBits, stopBits, parity) {
     // USB CDC ACM SET_LINE_CODING request ID is 0x20
