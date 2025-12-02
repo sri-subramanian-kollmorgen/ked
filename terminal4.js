@@ -65,15 +65,21 @@ async function setLineCoding(device, baudRate, dataBits, stopBits, parity) {
 async function sendCommand(cmd) {
   const encoder = new TextEncoder();
   await device.transferOut(1, encoder.encode(cmd + "\r\n")); // Endpoint 1 OUT
+  doRead = true;
 }
 
 async function readLoop() {
   while (device) {
+    if(!doRead)
+      continue;
     try {
       // *** CORRECTED: Add the try/catch block here ***
       const result = await device.transferIn(1, 64); 
       const decoder = new TextDecoder();
-      logToTerminal(decoder.decode(result.data));
+      const text = decoder.decode(result.data);
+      logToTerminal(text);
+      if(text.endsWith("-->\r\n"))
+        doRead = false;
 
     } catch (error) {
         logToTerminal("Read Error: " + error.message);
