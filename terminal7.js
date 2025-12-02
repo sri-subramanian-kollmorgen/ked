@@ -65,8 +65,24 @@ async function setLineCoding(device, baudRate, dataBits, stopBits, parity) {
 
 async function sendCommand(cmd) {
   const encoder = new TextEncoder();
-  await device.transferOut(1, encoder.encode(cmd + "\r\n")); // Endpoint 1 OUT
-  doRead = true;
+  const data = encoder.encode(cmd + "\r\n");
+  
+  try {
+      const result = await device.transferOut(1, data); // Endpoint 1 for OUT
+
+      if (result.status === "ok") {
+          console.log(`Successfully sent ${result.bytesWritten} bytes.`);
+      } else if (result.status === "stall") {
+          logToTerminal("Write Error: Endpoint stalled. Clearing halt...");
+          await device.clearHalt("out", 1); 
+      } else {
+          logToTerminal(`Write Error: Status was ${result.status}`);
+      }
+  } catch (error) {
+       logToTerminal("Write Exception: " + error.message);
+       // Clear halt in case of a JS exception
+       await device.clearHalt("out", 1); 
+  }
 }
 
 function sleep(ms) {
