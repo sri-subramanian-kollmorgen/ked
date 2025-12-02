@@ -88,6 +88,7 @@ try {
     await new Promise(resolve => setTimeout(resolve, 500)); 
 
     logToTerminal("Connected to device");
+    sendCommand('drv.type');
     readLoop();
   } catch (err) {
     logToTerminal("Error: " + err);
