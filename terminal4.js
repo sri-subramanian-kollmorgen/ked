@@ -18,10 +18,10 @@ document.getElementById('connectBtn').addEventListener('click', async () => {
     // *** CRITICAL: Wait 500ms for the device to reset its UART ***
     await new Promise(resolve => setTimeout(resolve, 500)); 
 
-    logToTerminal("Connected to device");
+    logToTerminal("Connected to device\n");
     readLoop();
   } catch (err) {
-    logToTerminal("Error: " + err);
+    logToTerminal("Error: " + err + "\n");
   }
 });
 
@@ -30,7 +30,7 @@ document.getElementById('inputBox').addEventListener('keydown', async (e) => {
     const cmd = e.target.value;
     e.target.value = '';
     await sendCommand(cmd);
-    logToTerminal("> " + cmd);
+    logToTerminal(cmd + '\n');
   }
 });
 
@@ -55,7 +55,7 @@ async function setControlLineState(device, dtr, rts) {
         value: value, 
         index: 0x00 // Index 0 is the Control Interface
     });
-    logToTerminal(`Set DTR/RTS to DTR:${dtr}, RTS:${rts}`);
+    logToTerminal(`Set DTR/RTS to DTR:${dtr}, RTS:${rts}\n`);
 }
 
 async function setLineCoding(device, baudRate, dataBits, stopBits, parity) {
@@ -89,7 +89,7 @@ async function setLineCoding(device, baudRate, dataBits, stopBits, parity) {
         index: 0x00  // Index is the interface number (Control Interface)
     }, lineCodingData);
     
-    logToTerminal(`Set baud rate to ${baudRate}`);
+    logToTerminal(`Set baud rate to ${baudRate}\n`);
 }
 
 async function sendCommand(cmd) {
@@ -102,10 +102,10 @@ async function sendCommand(cmd) {
       if (result.status === "ok") {
           console.log(`Successfully sent ${result.bytesWritten} bytes.`);
       } else if (result.status === "stall") {
-          logToTerminal("Write Error: Endpoint stalled. Clearing halt...");
+          logToTerminal("Write Error: Endpoint stalled. Clearing halt...\n");
           await device.clearHalt("out", 1); 
       } else {
-          logToTerminal(`Write Error: Status was ${result.status}`);
+          logToTerminal(`Write Error: Status was ${result.status}\n`);
       }
   } catch (error) {
        logToTerminal("Write Exception: " + error.message);
@@ -129,11 +129,11 @@ async function readLoop() {
       logToTerminal(text);
 
     } catch (error) {
-        logToTerminal("Read Error: " + error.message);
+        logToTerminal("Read Error: " + error.message + '\n');
 
         // If an error occurs, clear the halt condition on the endpoint
         if (error.message.includes("transfer error") || error.message.includes("stalled")) {
-             logToTerminal("Clearing endpoint halt...");
+             logToTerminal("Clearing endpoint halt...\n");
              // Endpoint 1 direction IN is 0x81 (address), but API uses just the number 1 for direction in/out
              await device.clearHalt("in", 1); 
              await device.clearHalt("out", 1); // Clear both just in case
