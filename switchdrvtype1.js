@@ -1,12 +1,12 @@
 let device;
 
-function logToTerminal(text, br=true) {
+function logToTerminal(text) {
   const terminal = document.getElementById('outputArea');
-  const formattedText = text.replace(/\n/g, '<br>');
-  terminal.innerHTML += formattedText;
-  if(br == true) {
-    terminal.innerHTML += '<br>';
-  }
+  //const formattedText = text.replace(/\n/g, '<br>');
+  terminal.innerHTML += text;
+//   if(br == true) {
+//     terminal.innerHTML += '<br>';
+//   }
   terminal.scrollTop = terminal.scrollHeight;
 }
 
@@ -96,7 +96,7 @@ try {
 
 async function sendCommand(cmd) {
   const encoder = new TextEncoder();
-  const data = encoder.encode('drv.type ' + cmd + "\r\n");
+  const data = encoder.encode(cmd + "\r\n");
   
   try {
       const result = await device.transferOut(1, data); // Endpoint 1 for OUT
@@ -116,6 +116,15 @@ async function sendCommand(cmd) {
   }
 }
 
+document.getElementById('inputBox').addEventListener('keydown', async (e) => {
+  if (e.key === 'Enter') {
+    const cmd = e.target.value;
+    e.target.value = '';
+    await sendCommand(cmd);
+    logToTerminal(cmd);
+  }
+});
+
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
@@ -128,7 +137,7 @@ async function readLoop() {
       const result = await device.transferIn(1, 64); 
       const decoder = new TextDecoder();
       const text = decoder.decode(result.data);
-      logToTerminal(text, false);
+      logToTerminal(text;
 
     } catch (error) {
         logToTerminal("Read Error: " + error.message);
@@ -157,7 +166,7 @@ function handleCommand(commandId) {
         case 2:
         case 5:
         case 7:
-            sendCommand(commandId);
+            sendCommand('drv.type ' + commandId);
             break;
         default:
             message = "Unknown Command ID received.";
