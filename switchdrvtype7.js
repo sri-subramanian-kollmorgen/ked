@@ -98,6 +98,7 @@ try {
 async function sendCommand(cmd) {
   const encoder = new TextEncoder();
   const data = encoder.encode(cmd + "\r\n");
+  logToTerminal(cmd);
   
   try {
       const result = await device.transferOut(1, data); // Endpoint 1 for OUT
