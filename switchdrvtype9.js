@@ -43,7 +43,7 @@ async function setLineCoding(device, baudRate, dataBits, stopBits, parity) {
     const dataView = new DataView(lineCodingData.buffer);
 
     // 1. Baud Rate (4 bytes, Little Endian)
-    dataView.setUint32(0, baudRate, true); // true for little endian byte order
+    //dataView.setUint32(0, baudRate, true); // true for little endian byte order
 
     // 2. Stop Bits (1 byte: 0 = 1 stop bit, 1 = 1.5 stop bits, 2 = 2 stop bits)
     // Your code uses 1 or 2 as inputs, map them to standard USB values
@@ -65,7 +65,7 @@ async function setLineCoding(device, baudRate, dataBits, stopBits, parity) {
         index: 0x00  // Index is the interface number (Control Interface)
     }, lineCodingData);
     
-    logToTerminal(`Set baud rate to ${baudRate}`);
+    //logToTerminal(`Set baud rate to ${baudRate}`);
 }
 
 async function ConnectUSB()
